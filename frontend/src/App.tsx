@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from './api';
-import SpotifySearchBar from './SpotifySeachBar';
+import SongPicker from './SongPicker';
 
 function App() {
   const [searchParams] = useSearchParams();
@@ -28,8 +28,8 @@ function App() {
   return (
     <div className="flex justify-center">
       <div className="max-w-4xl w-full">
-        <SpotifySearchBar />
-        <div>hey {data?.data.user.first_name}</div>
+        <div className="text-center py-8">hey {data?.data.user.first_name}</div>
+        <SongPicker />
       </div>
     </div>
   );

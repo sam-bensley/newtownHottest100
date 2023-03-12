@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db-hottest100:
+    image: postgres
+    volumes:
+      - ./tmp:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - '5432:5432'
+    # command: ['postgres', '-c', 'log_statement=all']

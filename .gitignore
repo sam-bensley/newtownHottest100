@@ -1,0 +1,6 @@
+frontend/node_modules
+frontend/.local.env
+
+backend/node_modules
+backend/lib
+backend/tmp

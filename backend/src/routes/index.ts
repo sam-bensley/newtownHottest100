@@ -3,6 +3,11 @@ import { query } from '../db';
 
 const mainRouter = Express.Router();
 
+//health check
+mainRouter.get('/', (req, res) => {
+  res.status(200).send('healthy');
+});
+
 mainRouter.get('/user', async (req, res) => {
   const unique_code = req.query.unique_code;
 

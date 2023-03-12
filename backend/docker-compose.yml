@@ -10,4 +10,11 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - '5432:5432'
-    # command: ['postgres', '-c', 'log_statement=all']
+  hottest100:
+    image: node
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - '3000:3000'
+    command: bash -c "npm install && npm start"

@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from './api';
 import SongPicker from './SongPicker';
+import { useEffect } from 'react';
 
 function App() {
   const [searchParams] = useSearchParams();
@@ -12,6 +13,12 @@ function App() {
     queryFn: () => getUser(code!),
     enabled: !!code
   });
+
+  useEffect(() => {
+    if (code) {
+      window.sessionStorage.setItem('unique_code', code);
+    }
+  }, [code]);
 
   if (!code) {
     return <div>You need to use the link that I sent you</div>;
@@ -29,7 +36,11 @@ function App() {
     <div className="flex justify-center">
       <div className="max-w-4xl w-full">
         <div className="text-center py-8">hey {data?.data.user.first_name}</div>
-        <SongPicker />
+        {data?.data.user.submitted ? (
+          <div>You have already submitted</div>
+        ) : (
+          <SongPicker />
+        )}
       </div>
     </div>
   );

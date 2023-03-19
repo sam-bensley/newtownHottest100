@@ -12,6 +12,7 @@ export const performGetRequest = async (url: string, params: any = {}) => {
 
 export const performPostRequest = async (url: string, params: any = {}) => {
   return axios.post(url, {
+    unique_code: window.sessionStorage.getItem('unique_code'),
     ...params
   });
 };
@@ -19,3 +20,11 @@ export const performPostRequest = async (url: string, params: any = {}) => {
 export const getUser = (uniqueCode: string) =>
   performGetRequest('user', { unique_code: uniqueCode });
 
+export interface SongAPIInterface {
+  title: string;
+  artist: string;
+  spotify_link: string;
+}
+
+export const submitSongs = (songs: SongAPIInterface[]) =>
+  performPostRequest('submit', { songs });

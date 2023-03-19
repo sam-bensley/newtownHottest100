@@ -2,6 +2,9 @@ import { useState } from 'react';
 import SpotifySearchBar from './SpotifySeachBar';
 import SongItem from './SpotifySeachBar/SongItem';
 import { Song } from './SpotifySeachBar/types';
+import { useMutation } from '@tanstack/react-query';
+import { submitSongs } from './api';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function SongPicker() {
   const [selectedSongs, setSelectedSongs] = useState<Song[]>([]);
@@ -16,6 +19,20 @@ export default function SongPicker() {
     }
     setSelectedSongs([...selectedSongs, song]);
   };
+
+  const submitSongsMutation = useMutation({
+    mutationFn: (songs: Song[]) => {
+      return submitSongs(
+        songs.map((song) => {
+          return {
+            title: song.name,
+            artist: song.artists.map((artist) => artist.name).join(', '),
+            spotify_link: song.external_urls.spotify
+          };
+        })
+      );
+    }
+  });
 
   return (
     <div className="space-y-4">
@@ -37,6 +54,23 @@ export default function SongPicker() {
           </div>
         ))}
       </div>
+      {selectedSongs.length > 0 ? (
+        <div>
+          <button
+            className="text-white bg-blue-500 p-2 rounded-full"
+            onClick={() => submitSongsMutation.mutate(selectedSongs)}
+          >
+            {submitSongsMutation.isLoading ? <CircularProgress /> : 'Submit'}
+          </button>
+          <div>
+            {submitSongsMutation.isError && (
+              <>{(submitSongsMutation.error as any).response?.data?.status}</>
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

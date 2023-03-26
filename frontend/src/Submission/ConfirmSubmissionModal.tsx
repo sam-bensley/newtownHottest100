@@ -66,7 +66,10 @@ export default function ConfirmSubmissionModal({
   return (
     <Modal open={open} setOpen={setOpen}>
       <div className="space-y-4 p-4">
-        <div>Are you sure you want to submit these two songs?</div>
+        <div>
+          Are you sure you want to submit these two songs? (You can only submit
+          once!)
+        </div>
         {songs.map((song) => (
           <SongItem song={song} />
         ))}

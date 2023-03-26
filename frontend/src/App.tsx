@@ -1,15 +1,16 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from './api';
-import SongPicker from './SongPicker';
+import Submission from './Submission';
 import { useEffect } from 'react';
+import Voting from './Voting';
 
 function App() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('unique_code');
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['user', code],
+    queryKey: ['user'],
     queryFn: () => getUser(code!),
     enabled: !!code
   });
@@ -36,11 +37,7 @@ function App() {
     <div className="flex justify-center">
       <div className="max-w-4xl w-full">
         <div className="text-center py-8">hey {data?.data.user.first_name}</div>
-        {data?.data.user.submitted ? (
-          <div>You have already submitted</div>
-        ) : (
-          <SongPicker />
-        )}
+        {data?.data.user.submitted ? <Voting /> : <Submission />}
       </div>
     </div>
   );

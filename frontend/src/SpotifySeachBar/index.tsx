@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import useSpotifyToken from './useSpotifyToken';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Song } from './types';
+import { Song } from './spotifyTypes';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import SongItem from './SongItem';

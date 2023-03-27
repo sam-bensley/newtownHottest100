@@ -1,4 +1,4 @@
-import { Song } from './types';
+import { Song } from './spotifyTypes';
 import _ from 'lodash';
 
 export default function SongItem({ song }: { song: Song }) {

@@ -1,5 +1,5 @@
 import Modal from '../common/Modal';
-import { Song } from '../SpotifySeachBar/types';
+import { Song } from '../SpotifySeachBar/spotifyTypes';
 import SongItem from '../SpotifySeachBar/SongItem';
 import { submitSongs } from '../api';
 import { useMutation } from '@tanstack/react-query';
@@ -58,6 +58,7 @@ export default function ConfirmSubmissionModal({
     onSuccess: () => {
       setTimeout(() => {
         queryClient.invalidateQueries(['user']);
+        queryClient.invalidateQueries(['allSongs']);
         setOpen(false);
       }, 500);
     }

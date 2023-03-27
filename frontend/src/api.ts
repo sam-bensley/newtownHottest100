@@ -17,10 +17,10 @@ export const performPostRequest = async (url: string, params: any = {}) => {
   });
 };
 
+export const getAllSongs = () => performGetRequest('songs');
+
 export const getUser = (uniqueCode: string) =>
   performGetRequest('user', { unique_code: uniqueCode });
-
-export const getAllSongs = () => performGetRequest('songs');
 
 export interface SongAPIInterface {
   title: string;

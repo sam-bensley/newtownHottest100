@@ -1,7 +1,7 @@
-import { Song } from './spotifyTypes';
+import { SpotifySong } from './spotifyTypes';
 import _ from 'lodash';
 
-export default function SongItem({ song }: { song: Song }) {
+export default function SongItem({ song }: { song: SpotifySong }) {
   return (
     <div className="w-full flex justify-between items-center space-x-4">
       <div className="shrink-0">

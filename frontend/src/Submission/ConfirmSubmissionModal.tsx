@@ -1,5 +1,5 @@
 import Modal from '../common/Modal';
-import { Song } from '../SpotifySeachBar/spotifyTypes';
+import { SpotifySong } from '../SpotifySeachBar/spotifyTypes';
 import SongItem from '../SpotifySeachBar/SongItem';
 import { submitSongs } from '../api';
 import { useMutation } from '@tanstack/react-query';
@@ -39,12 +39,12 @@ export default function ConfirmSubmissionModal({
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  songs: Song[];
+  songs: SpotifySong[];
 }) {
   const queryClient = useQueryClient();
 
   const submitSongsMutation = useMutation({
-    mutationFn: (songs: Song[]) => {
+    mutationFn: (songs: SpotifySong[]) => {
       return submitSongs(
         songs.map((song) => {
           return {

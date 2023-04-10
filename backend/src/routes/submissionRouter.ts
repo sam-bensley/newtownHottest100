@@ -4,6 +4,8 @@ import { query } from '../db';
 
 const submissionRouter = Express.Router();
 
+const MAX_SONGS = 2;
+
 submissionRouter.post('/submit', async (req, res) => {
   const unique_code = req.body.unique_code;
   const songs: {
@@ -16,8 +18,10 @@ submissionRouter.post('/submit', async (req, res) => {
     return res.status(400).send({ status: 'bad request' });
   }
 
-  if (songs.length !== 2) {
-    return res.status(400).send({ status: '2 song submissions required' });
+  if (songs.length !== MAX_SONGS) {
+    return res
+      .status(400)
+      .send({ status: `${MAX_SONGS} song submissions required` });
   }
 
   const queryRes = await query('SELECT * FROM person WHERE unique_code = $1', [
@@ -55,7 +59,10 @@ submissionRouter.post('/submit', async (req, res) => {
     `INSERT INTO song (title, artist, spotify_link, user_id) VALUES ${songs
       .map(
         (s) =>
-          `('${s.title}', '${s.artist}', '${s.spotify_link}', '${person.id}')`
+          `('${s.title.replace(/'/g, "''")}', '${s.artist.replace(
+            /'/g,
+            "''"
+          )}', '${s.spotify_link.replace(/'/g, "''")}', '${person.id}')`
       )
       .join(', ')}`,
     []

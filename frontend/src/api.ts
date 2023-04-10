@@ -30,3 +30,6 @@ export interface SongAPIInterface {
 
 export const submitSongs = (songs: SongAPIInterface[]) =>
   performPostRequest('submission/submit', { songs });
+
+export const submitSongVotes = (songIds: number[]) =>
+  performPostRequest('voting/vote', { song_ids: songIds });

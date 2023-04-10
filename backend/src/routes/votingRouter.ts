@@ -4,11 +4,12 @@ import { query } from '../db';
 const votingRouter = Express.Router();
 
 //Person can only vote twice
+
 votingRouter.post('/vote', async (req, res) => {
   const unique_code = req.body.unique_code;
-  const song_id = req.body.song_id;
+  const song_ids = req.body.song_ids as Number[];
 
-  if (!unique_code || !song_id) {
+  if (!unique_code || !song_ids) {
     return res.status(400).send({ status: 'bad request' });
   }
 
@@ -22,20 +23,18 @@ votingRouter.post('/vote', async (req, res) => {
 
   const person = queryRes.rows[0];
 
-  if (person.votes >= 2) {
+  if (person.voted) {
     return res.status(400).send({ status: 'person already voted' });
   }
 
-  const insertRes = await query(
-    `INSERT INTO vote (song_id, user_id) VALUES (${song_id}, ${person.id})`,
+  await query(
+    `INSERT INTO song_votes (song_id, user_id, ranking) VALUES ${song_ids
+      .map((s, index) => `('${s}', '${person.id}', '${index + 1}')`)
+      .join(', ')}`,
     []
   );
 
-  if (insertRes.rowCount != 1) {
-    return res.status(500).send({ status: 'internal server error' });
-  }
-
-  await query('UPDATE person SET votes = votes + 1 WHERE id = $1', [person.id]);
+  await query('UPDATE person SET voted = true WHERE id = $1', [person.id]);
 
   return res.status(200).send({ status: 'success' });
 });

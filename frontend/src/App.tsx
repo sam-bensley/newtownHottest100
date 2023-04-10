@@ -4,7 +4,6 @@ import { getUser } from './api';
 import Submission from './Submission';
 import { useEffect } from 'react';
 import Voting from './Voting';
-import AlreadySubmitted from './AlreadySubmitted';
 
 function App() {
   const [searchParams] = useSearchParams();
@@ -41,13 +40,6 @@ function App() {
           hey {data?.data.user.first_name}
         </div>
         {data?.data.user.submitted ? <Voting /> : <Submission />}
-        <div className="py-8">
-          <hr />
-        </div>
-        <div className="space-y-8">
-          <div className="text-2xl">Songs already submitted by others:</div>
-          <AlreadySubmitted />
-        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import SongItem from '../SpotifySeachBar/SongItem';
 import useSpotifyToken from '../SpotifySeachBar/useSpotifyToken';
+import { SpotifySong } from '../SpotifySeachBar/spotifyTypes';
 
 export interface DBSong {
   id: string;
@@ -11,7 +12,13 @@ export interface DBSong {
   spotify_link: string;
 }
 
-export default function Song({ song }: { song: DBSong }) {
+export default function Song({
+  song,
+  CustomSongComponent
+}: {
+  song: DBSong;
+  CustomSongComponent?: React.FC<{ song: SpotifySong }>;
+}) {
   const { token } = useSpotifyToken();
 
   const spotifyId = song.spotify_link.split('/').pop();
@@ -38,7 +45,11 @@ export default function Song({ song }: { song: DBSong }) {
 
   return (
     <div>
-      <SongItem song={data!.data} />
+      {CustomSongComponent ? (
+        <CustomSongComponent song={data!.data} />
+      ) : (
+        <SongItem song={data!.data} />
+      )}
     </div>
   );
 }

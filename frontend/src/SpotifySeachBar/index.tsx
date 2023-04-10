@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import useSpotifyToken from './useSpotifyToken';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Song } from './spotifyTypes';
+import { SpotifySong } from './spotifyTypes';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import SongItem from './SongItem';
@@ -11,14 +11,14 @@ import { useDebounce } from 'use-debounce';
 export default function SpotifySearchBar({
   songCallBack
 }: {
-  songCallBack: (song: Song) => void;
+  songCallBack: (song: SpotifySong) => void;
 }) {
   const { token } = useSpotifyToken();
 
-  const [value, setValue] = useState<Song | null>(null);
+  const [value, setValue] = useState<SpotifySong | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [debouncedInputValue] = useDebounce(inputValue, 500);
-  const [options, setOptions] = useState<readonly Song[]>([]);
+  const [options, setOptions] = useState<readonly SpotifySong[]>([]);
 
   const { data, isLoading: isSearching } = useQuery({
     queryKey: ['search', debouncedInputValue],
@@ -60,7 +60,7 @@ export default function SpotifySearchBar({
             `${option.name} - ${option.artists[0].name}`
           }
           noOptionsText="No songs found"
-          onChange={(event: any, newValue: Song | null) => {
+          onChange={(event: any, newValue: SpotifySong | null) => {
             setOptions([]);
             setValue(newValue);
           }}

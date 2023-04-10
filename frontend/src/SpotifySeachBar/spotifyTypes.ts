@@ -23,7 +23,7 @@ export interface Artist {
   name: string;
 }
 
-export interface Song {
+export interface SpotifySong {
   album: Album;
   artists: Artist[];
   duration_ms: number;
